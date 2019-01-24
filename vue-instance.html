@@ -1,0 +1,80 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+
+    var data = { a: 1 };
+
+    // root vue instance that each application has
+    var vm = new Vue({
+        //options object goes here
+
+        // on startup up variables get loaded
+        data: data
+
+    })
+
+    vm.a === data.a // => true
+
+    // properties are reactive
+    vm.a = 2
+    data.a // => 2
+
+    data.a = 3
+    vm.a // => 3
+
+    // only reactive if they existed when the vm instance was created
+    // so new property like b won't be reactive
+
+    vm.b = 'hello' // not reactive
+
+    // if reactivity is needed eventually create the vm with the properties before hand
+    // data: {
+    //     newTodoText: '',
+    //         visitCount: 0,
+    //             hideCompletedTodos: false,
+    //                 todos: [],
+    //                     error: null
+    // }
+
+    // you can use object.freeze to disable reactivity
+    var obj = {
+        foo: 'bar'
+    }
+
+    Object.freeze(obj)
+
+    new Vue({
+        el: '#app',
+        data: obj
+    })
+
+    var data2 = { a: 1 }
+
+    // can use $ to distinguish from user defined properties
+    var vm2 = new Vue({
+        el: '#example',
+        data: data2
+    })
+
+    vm2.$data === data2 // => true
+    vm2.$el === document.getElementById('example') // => true
+
+    // $watch is an instance method
+    vm2.$watch('a', function (newValue, oldValue) {
+        // This callback will be called when `vm.a` changes
+    })
+
+
+    // Lifecycle hooks
+
+    new Vue({
+        data: {
+            a: 1
+        },
+        created: function () {
+            // this points to this Vue instance
+            console.log('This is a: ', this.a);
+        }
+
+    })
+</script>
